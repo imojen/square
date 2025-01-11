@@ -18,11 +18,11 @@ export class PlayAreaComponent {
   }
 
   toggleSquareColor(square: { color: string; isCritical: boolean }) {
-    if (this.squareService.activeSkills['Mouse Square Lv 2']) {
+    if (this.squareService.activeSkills['Carré Souris Lv 2']) {
       if (square.color === '#111111') {
         square.color = '#ffffff';
       }
-    } else if (this.squareService.activeSkills['Mouse Square Lv 1']) {
+    } else if (this.squareService.activeSkills['Carré Souris Lv 1']) {
       square.color = square.color === '#ffffff' ? '#111111' : '#ffffff';
     }
   }

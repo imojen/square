@@ -6,7 +6,7 @@ import { skills, Skill } from '../config/skills.config';
 @Component({
   selector: 'app-side-menu',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, NgFor],
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.css'],
 })
@@ -36,11 +36,21 @@ export class SideMenuComponent {
   }
 
   shouldShowSkill(skill: Skill): boolean {
-    const litSquares = this.squareService.getLitSquaresCount();
+    const prerequisitesMet = skill.prerequisites
+      ? skill.prerequisites.every(
+          (prereq) => this.skills.find((s) => s.name === prereq)?.purchased
+        )
+      : true;
     const levelMet = skill.levelRequirement
       ? this.squareService.level >= skill.levelRequirement
       : true;
-    return !skill.purchased && levelMet && litSquares >= skill.cost * 0.8;
+    const litSquares = this.squareService.getLitSquaresCount();
+    return (
+      !skill.purchased &&
+      prerequisitesMet &&
+      levelMet &&
+      litSquares >= skill.cost * 0.8
+    );
   }
 
   unlockSkill(skill: Skill) {

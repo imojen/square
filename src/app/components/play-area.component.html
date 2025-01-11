@@ -3,7 +3,11 @@
     <div class="grid" [ngStyle]="gridStyle">
       @for (square of squareService.squares; track square) {
       <div
-        [ngClass]="{ square: true, critical: square.isCritical }"
+        [ngClass]="{
+          square: true,
+          critical: square.isCritical,
+          round: squareService.activeSkills['Rond']
+        }"
         [ngStyle]="{ 'background-color': square.color }"
         (mouseover)="toggleSquareColor(square)"
       ></div>

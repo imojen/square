@@ -14,12 +14,12 @@ export class SquareService {
 
   constructor() {
     this.initializeGrid();
-    //this.testSetup();
+    this.testSetup();
   }
 
   initializeGrid() {
-    const baseSize = 10000;
-    const gridSize = Math.floor(baseSize * Math.pow(1.25, this.level - 1));
+    const baseSize = 2500;
+    const gridSize = Math.floor(baseSize * Math.pow(1.5, this.level - 1));
     this.squares = Array.from({ length: gridSize }, () => ({
       color: '#111111',
       isCritical: false,
@@ -27,7 +27,7 @@ export class SquareService {
   }
 
   testSetup() {
-    for (let i = 0; i < 9995 && i < this.squares.length; i++) {
+    for (let i = 0; i < 4500 && i < this.squares.length; i++) {
       this.squares[i].color = '#ffffff';
     }
   }
@@ -35,7 +35,7 @@ export class SquareService {
   highlightRandomSquare() {
     if (this.playAreaComponent.isPaused) return;
 
-    let squaresToLight = 1;
+    let squaresToLight = 150;
     if (this.activeSkills['Quintuple']) {
       squaresToLight = 5;
     } else if (this.activeSkills['Quadruple']) {
@@ -57,12 +57,24 @@ export class SquareService {
       this.squares[squareIndex].color = '#ffffff';
       litCount++;
 
-      if (this.activeSkills['Horizontal Rule'] && Math.random() < 0.05) {
+      if (this.activeSkills['Règle Horizontale'] && Math.random() < 0.05) {
         this.lightUpRow(squareIndex);
       }
 
-      if (this.activeSkills['Vertical Rule'] && Math.random() < 0.05) {
+      if (this.activeSkills['Règle Verticale'] && Math.random() < 0.05) {
         this.lightUpColumn(squareIndex);
+      }
+
+      const criticalChance = this.activeSkills['Carré Critique Lv 3']
+        ? 0.2
+        : this.activeSkills['Carré Critique Lv 2']
+        ? 0.1
+        : this.activeSkills['Carré Critique Lv 1']
+        ? 0.1
+        : 0;
+
+      if (Math.random() < criticalChance) {
+        this.lightUpAdjacentSquares(squareIndex, true);
       }
 
       unlitSquares.splice(randomIndex, 1);
@@ -151,11 +163,11 @@ export class SquareService {
 
   activateSkill(skillName: string) {
     this.activeSkills[skillName] = true;
-    if (skillName === 'Auto-square') {
+    if (skillName === 'Auto-clic') {
       this.startAutoSquare(1);
-    } else if (skillName === 'Auto-square x2') {
+    } else if (skillName === 'Auto-clic x2') {
       this.startAutoSquare(2);
-    } else if (skillName.startsWith('Reduce Auto Square Lv')) {
+    } else if (skillName.startsWith('Réduction Auto-clic Lv')) {
       this.updateAutoSquareInterval();
     }
   }
@@ -164,7 +176,7 @@ export class SquareService {
     let baseInterval = 1000; // Base interval in milliseconds
     const reduceLevels = Object.keys(this.activeSkills).filter(
       (skill) =>
-        skill.startsWith('Reduce Auto Square Lv') && this.activeSkills[skill]
+        skill.startsWith('Réduction Auto-clic Lv') && this.activeSkills[skill]
     ).length;
     const reduction = 0.05 * reduceLevels * 1000; // Convert seconds to milliseconds
     baseInterval = Math.max(100, baseInterval - reduction); // Ensure a minimum interval
