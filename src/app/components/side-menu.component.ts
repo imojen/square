@@ -6,7 +6,7 @@ import { skills, Skill } from '../config/skills.config';
 @Component({
   selector: 'app-side-menu',
   standalone: true,
-  imports: [NgIf, NgFor],
+  imports: [NgIf],
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.css'],
 })
