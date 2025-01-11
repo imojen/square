@@ -14,7 +14,7 @@ export class SquareService {
 
   constructor() {
     this.initializeGrid();
-    this.testSetup();
+    //this.testSetup();
   }
 
   initializeGrid() {
