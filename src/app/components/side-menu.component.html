@@ -1,0 +1,26 @@
+<div class="button-container" *ngIf="!squareService.playAreaComponent.isPaused">
+  <button (click)="highlightRandomSquare()">
+    <i class="fas fa-square-full text-black"></i>
+  </button>
+  <div class="square-count">
+    <i class="fas fa-square-full text-black"></i>
+    {{ squareService.getLitSquaresCount() }}
+  </div>
+  <div class="skills">
+    @for(skill of skills; track skill) {
+    <button
+      *ngIf="shouldShowSkill(skill)"
+      (click)="unlockSkill(skill)"
+      [disabled]="!canUnlockSkill(skill)"
+    >
+      <div class="skill-header">
+        <div><i [class]="skill.icon"></i> {{ skill.name }}</div>
+        <span class="float-end">
+          {{ skill.cost }} <i class="fas fa-square-full text-black"></i>
+        </span>
+      </div>
+      <div class="skill-description">{{ skill.description }}</div>
+    </button>
+    }
+  </div>
+</div>

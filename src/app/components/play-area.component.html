@@ -1,0 +1,19 @@
+<div class="play-area">
+  <div class="grid-wrapper" *ngIf="!isPaused">
+    <div class="grid" [ngStyle]="gridStyle">
+      @for (square of squareService.squares; track square) {
+      <div
+        [ngClass]="{ square: true, critical: square.isCritical }"
+        [ngStyle]="{ 'background-color': square.color }"
+        (mouseover)="toggleSquareColor(square)"
+      ></div>
+      }
+    </div>
+  </div>
+  <div class="level-info">
+    Level {{ squareService.level }}, {{ gridSize }}x{{ gridSize }}
+  </div>
+  <div class="level-message" *ngIf="isPaused">
+    {{ levelMessage }}
+  </div>
+</div>
