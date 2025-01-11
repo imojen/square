@@ -35,7 +35,7 @@ export class SquareService {
   highlightRandomSquare() {
     if (this.playAreaComponent.isPaused) return;
 
-    let squaresToLight = 150;
+    let squaresToLight = 1;
     if (this.activeSkills['Quintuple']) {
       squaresToLight = 5;
     } else if (this.activeSkills['Quadruple']) {
